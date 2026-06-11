@@ -89,9 +89,21 @@ function Hero() {
           'radial-gradient(560px circle at var(--spot-x, 50%) var(--spot-y, 35%), rgba(255,255,255,0.05), transparent 70%)',
       }}
     >
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center select-none"
+      >
+        <img
+          src="/arquenix-logo-trans.png"
+          alt=""
+          className="w-[650px] h-auto opacity-10 blur-md select-none"
+        />
+      </div>
+
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.35]"
+        className="pointer-events-none absolute inset-0 opacity-[0.35] z-10"
         style={{
           backgroundImage:
             'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
@@ -100,7 +112,7 @@ function Hero() {
         }}
       />
 
-      <div className="relative max-w-3xl space-y-7 animate-rise">
+      <div className="relative max-w-3xl space-y-7 animate-rise z-20">
         <p className="text-[13px] font-medium lowercase tracking-[0.22em] text-white/40">
           cold , clean , calculated 
         </p>
