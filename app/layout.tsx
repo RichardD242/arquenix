@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Arquenix — full-stack e-commerce and financial platform',
+  title: 'arquenix',
   description: 'Commerce, finance, and infrastructure in one platform.',
 };
 
