@@ -30,3 +30,9 @@ after that:
 - work on actual landing page for the e-commerce shop : /arquenix
 
 - work on dashboard an analaytic (dashboard has analytics in it inside) 
+
+random:
+
+- smooth satisfying glassmorphic data grid with like unuequal sizes and stuff like apple: Data Bento Grid
+
+- random money transfers
