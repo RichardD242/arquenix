@@ -12,6 +12,7 @@ export default function HomePage() {
           </div>
 
           <nav className="flex items-center space-x-6 text-sm font-medium">
+            <a href="/arquenix" className="transition-colors hover:text-foreground/80 text-foreground">arquenix</a>
             <a href="/dashboard" className="transition-colors hover:text-foreground/80 text-foreground">dashboard</a>
             <a href="/analytics" className="transition-colors hover:text-foreground/80 text-foreground">analytics</a>
             <a href="/docs" className="transition-colors hover:text-foreground/80 text-foreground">docs</a>
