@@ -1,56 +1,174 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
+
+const nav_links = [
+  { href: "/arquenix", label: "arquenix" },
+  { href: "/dashboard", label: "dashboard" },
+  { href: "/analytics", label: "analytics" },
+  { href: "/docs", label: "docs" },
+  { href: "/github", label: "github" },
+];
+
+function FloatingNav() {
+
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, {passive: true});
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+return (
+    <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 pointer-events-none">
+      <nav
+        aria-label="Main"
+        className={[
+          'pointer-events-auto flex items-center gap-1 rounded-full border border-white/[0.08]',
+          'bg-[#101013]/70 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.06)]',
+          'transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]',
+          'hover:scale-[1.015]',
+          scrolled ? 'px-3 py-1.5 scale-[0.97]' : 'px-4 py-2.5',
+        ].join(' ')}
+      >
+        <a
+          href="/"
+          className="mr-2 px-2 text-sm font-semibold tracking-tight text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/60 rounded-full"
+        >
+          home
+        </a>
+
+        <div className="hidden md:flex items-center">
+          {nav_links.map((link) => ( 
+            <a
+              key={link.href}
+              href={link.href}
+              className="rounded-full px-3 py-1.5 text-[13px] text-white/55 transition-colors duration-200 hover:text-white hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        <a
+          href="/admin"
+          className="ml-2 rounded-full bg-white px-4 py-1.5 text-[13px] font-medium text-black transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.04] active:scale-[0.97] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+        >
+          admin
+        </a>
+      </nav>
+    </header>
+  );
+}
+
+function Hero() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const onMouseMove = (e: MouseEvent) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--spot-x', `${e.clientX - r.left}px`);
+      el.style.setProperty('--spot-y', `${e.clientY - r.top}px`);
+    };
+
+    el.addEventListener('mousemove', onMouseMove);
+    return () => el.removeEventListener('mousemove', onMouseMove);
+  }, []);
+
+  return (
+    <main
+      ref={ref}
+      className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-6 text-center"
+      style={{
+        background:
+          'radial-gradient(560px circle at var(--spot-x, 50%) var(--spot-y, 35%), rgba(255,255,255,0.05), transparent 70%)',
+      }}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.35]"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
+          backgroundSize: '88px 88px',
+          maskImage: 'radial-gradient(ellipse 70% 60% at 50% 45%, black, transparent)',
+        }}
+      />
+
+      <div className="relative max-w-3xl space-y-7 animate-rise">
+        <p className="text-[13px] font-medium lowercase tracking-[0.22em] text-white/40">
+          cold , clean , calculated 
+        </p>
+
+        <h1 className="text-balance text-5xl font-semibold leading-[1.05] tracking-[-0.03em] text-white sm:text-6xl md:text-7xl">
+          introducing {''}
+          <span className="bg-gradient-to-b from-white to-white/55 bg-clip-text text-transparent">
+            arquenix
+          </span>
+        </h1>
+
+        <p className="mx-auto max-w-xl text-balance text-lg leading-relaxed text-white/50">
+          full-stack e-commerce and financial platform
+        </p>
+
+        <div className="flex items-center justify-center gap-3 pt-2">
+          <a
+            href="/dashboard"
+            className="rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.03] active:scale-[0.97] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+          >
+            open dashboard
+          </a>
+
+          <a
+            href="/docs"
+            className="rounded-full border border-white/[0.12] px-6 py-3 text-sm font-medium text-white/70 transition-colors duration-200 hover:border-white/25 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+          >
+            read docs
+          </a>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-white/[0.06] px-6 py-8" >
+      <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 md:flex-row" >
+        <p className="text-[13px] text-white/35">
+          © 2026 Arquenix made by richardd242
+        </p>
+        <nav aria-label="Footer" className="flex items-center gap-6" >
+          {[
+            { href: "/about", label: "about" },
+            { href: "/docs", label: "docs" },
+            { href: "/source", label: "source" },
+          ].map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="text-[13px] text-white/35 transition-colors duration-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </footer>
+  );
+}
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
-
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <div className="flex items-center space-x-2">
-            <span className="text-xl font-bold tracking-tight">Arquenix</span>
-
-          </div>
-
-          <nav className="flex items-center space-x-6 text-sm font-medium">
-            <a href="/arquenix" className="transition-colors hover:text-foreground/80 text-foreground">arquenix</a>
-            <a href="/dashboard" className="transition-colors hover:text-foreground/80 text-foreground">dashboard</a>
-            <a href="/analytics" className="transition-colors hover:text-foreground/80 text-foreground">analytics</a>
-            <a href="/docs" className="transition-colors hover:text-foreground/80 text-foreground">docs</a>
-            <a href="/github" className="transition-colors hover:text-foreground/80 text-foreground">github</a>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            <button className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2">
-              admin
-            </button>
-            
-          </div>
-        </div>
-      </header>
-
-      <main className="flex-1 container mx-auto px-4 py-12 flex flex-col items-center justify-center text-center">
-        <div className="max-w-2xl space-y-4">
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-            welcome to <span className="text-primary">arquenix</span>
-          </h1>
-          <p className="text-xl text-muted-foreground">
-            full-stack e-commerce and financial platform
-          </p>
-        </div>
-      </main>
-
-      <footer className="border-t py-6 md:px-8 md:py-0">
-        <div className="container mx-auto flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row px-4">
-          <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
-            © 2026 Arquenix made by richardd242
-          </p>
-          <nav className="flex items-center space-x-4">
-            <a href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">about</a>
-            <a href="/docs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">docs</a>
-            <a href="/source" className="text-sm text-muted-foreground hover:text-foreground transition-colors">source</a>
-          </nav>
-        </div>
-      </footer>
+    <div className="flex min-h-screen flex-col bg-[#0a0a0c] text-white antialiased selection:bg-white selection:text-black">
+      <FloatingNav />
+      <Hero />
+      <Footer />
     </div>
   );
 }
